@@ -47,6 +47,11 @@
 	if (wear_suit)
 		tally += wear_suit.slowdown
 
+	if (back)
+		tally += back.slowdown
+
+	tally += 1
+
 	if (buckled && istype(buckled, /obj/structure/bed/chair/wheelchair))
 		for (var/organ_name in list("l_hand","r_hand","l_arm","r_arm"))
 			var/obj/item/organ/external/E = get_organ(organ_name)
@@ -80,10 +85,8 @@
 	if (FAT in mutations)
 		tally += 1.5
 
-	/* this is removed until coats protect from the cold, instead of ignoring it.
-	   also, I'm reasonably sure that in real life being cold does not make you vastly slower - Kachnov
 	if (bodytemperature < 283.222)
-		tally += (283.222 - bodytemperature) / 10 * 1.75*/
+		tally += (283.222 - bodytemperature) / 10 * 1.75
 
 	handle_stance()
 	tally += max(2 * stance_damage, FALSE) //damaged/missing feet or legs is slow
@@ -117,7 +120,5 @@
 
 /mob/living/carbon/human/Check_Shoegrip()
 	if (species.flags & NO_SLIP)
-		return TRUE
-	if (shoes && (shoes.item_flags & NOSLIP) && istype(shoes, /obj/item/clothing/shoes/magboots))  //magboots + dense_object = no floating
 		return TRUE
 	return FALSE

@@ -19,6 +19,17 @@
 	anchored = TRUE
 	name = "anti-tank structure"
 
+/obj/structure/anti_tank/attackby(obj/item/W as obj, mob/user as mob)
+	if (istype(W, /obj/item/weapon/wrench))
+		if (anchored)
+			user.visible_message("<span class = 'notice'>\The [user] starts to disassemble \the [src] with [W].</span>")
+			if (!do_after(user,60))
+				user.visible_message("<span class = 'notice'>\The [user] decides not to disassemble \the [src].</span>")
+				return
+			user.visible_message("<span class = 'notice'>\The [user] finishes disassembling \the [src]!</span>")
+			playsound(loc, 'sound/items/Wirecutter.ogg', 50, TRUE)
+			qdel(src)
+			return
 /obj/structure/anti_tank/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
 	if (istype(mover, /obj/item/projectile))
 		if (prob(20))
@@ -40,12 +51,35 @@
 		if (3.0)
 			return
 
+/obj/structure/campfire
+	icon = 'icons/obj/campfire.dmi'
+	icon_state = "campfire20"
+	layer = MOB_LAYER - 0.01
+	density = FALSE
+	var/activeFire = FALSE
+	anchored = TRUE
+
+
+/obj/structure/campfire/attackby(obj/item/W as obj, mob/user as mob)
+	if (!activeFire)
+		if (istype(W, /obj/item/weapon/flame))
+			user.visible_message("<span class = 'notice'>\The [user] lights \the [src] with [W].</span>")
+			icon_state = "campfire21"
+			set_light(4)
+			activeFire = TRUE
+	if (activeFire)
+		if (istype(W, /obj/item/weapon/flame))
+			return
+		else
+			user.visible_message("<span class = 'notice'>\The [user] puts out \the [src] with [W].</span>")
+			icon_state = "campfire20"
+			set_light(0)
+			activeFire = FALSE
+
 /obj/structure/flag
 	icon = 'icons/obj/flags.dmi'
 	layer = MOB_LAYER + 0.01
-	bound_width = 32
-	bound_height = 32
-	density = TRUE
+	density = FALSE
 	anchored = TRUE
 
 /obj/structure/flag/ex_act(severity)

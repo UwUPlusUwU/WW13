@@ -1,3 +1,6 @@
+#define NO_WINNER "No prisoners have escaped."
+
+
 /obj/map_metadata/saipan
 	ID = MAP_SAIPAN
 	title = "Saipan (100x120x1)"

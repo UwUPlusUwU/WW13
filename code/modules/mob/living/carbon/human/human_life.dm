@@ -150,6 +150,11 @@
 
 	..()
 
+	if (grab_list.len)
+		if (grab_list[1] == null)
+			grab_list = list()
+	..()
+
 	// recover stamina
 	stats["stamina"][1] = min(stats["stamina"][1] + round(stats["stamina"][2] * 0.02), stats["stamina"][2])
 
@@ -344,11 +349,12 @@
 	var/loc_temp = 293
 	var/area/mob_area = get_area(src)
 
+
 	if (mob_area.location == AREA_OUTSIDE)
 
 		switch (season)
 			if ("WINTER")
-				loc_temp = 264 - 20
+				loc_temp = 264
 			if ("FALL")
 				loc_temp = 285
 			if ("SUMMER")
@@ -417,6 +423,9 @@
 //	var/relative_density = environment.total_moles / MOLES_CELLSTANDARD
 	var/relative_density = 1.0
 	bodytemperature += between(BODYTEMP_COOLING_MAX, temp_adj*relative_density, BODYTEMP_HEATING_MAX)
+	for (var/obj/structure/campfire/H in range(4, src))
+		if(H.activeFire)
+			bodytemperature = 303
 	// +/- 50 degrees from 310.15K is the 'safe' zone, where no damage is dealt.
 	if (bodytemperature >= species.heat_level_1)
 		//Body temperature is too hot.

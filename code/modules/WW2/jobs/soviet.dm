@@ -255,6 +255,48 @@
 	    new/obj/item/weapon/key/soviet/bunker_doors, new/obj/item/weapon/key/soviet/medic,
 	      new/obj/item/weapon/key/soviet/engineer, new/obj/item/weapon/key/soviet/QM)
 
+/datum/job/soviet/messenger
+	title = "Radist"
+	en_meaning = "Messenger"
+	rank_abbreviation = "Srg"
+	head_position = FALSE
+	selection_color = "#770e0e"
+	spawn_location = "JoinLateRASL"
+	additional_languages = list( "German" = 33 )
+	is_officer = FALSE
+	is_squad_leader = FALSE
+	SL_check_independent = TRUE
+
+
+	// AUTOBALANCE
+	min_positions = 2
+	max_positions = 2
+
+/datum/job/soviet/messenger/equip(var/mob/living/carbon/human/H)
+	if (!H)	return FALSE
+
+	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/swat/wrappedboots(H), slot_shoes)
+	H.equip_to_slot_or_del(new /obj/item/clothing/head/caphat/sovofficercap(H), slot_head)
+	H.equip_to_slot_or_del(new /obj/item/clothing/under/sovuni/officer(H), slot_w_uniform)
+	H.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/submachinegun/ppsh(H), slot_back)
+	H.equip_to_slot_or_del(new /obj/item/weapon/attachment/scope/adjustable/binoculars(H), slot_l_hand)
+	H.add_note("Role", "You are a <b>[title]</b>. Your job is to assist command in communication.")
+	H.give_radio()
+	H.setStat("strength", STAT_NORMAL)
+	H.setStat("engineering", STAT_LOW)
+	H.setStat("rifle", STAT_MEDIUM_LOW)
+	H.setStat("mg", STAT_NORMAL)
+	H.setStat("smg", STAT_MEDIUM_HIGH)
+	H.setStat("pistol", STAT_MEDIUM_LOW)
+	H.setStat("heavyweapon", STAT_NORMAL)
+	H.setStat("medical", STAT_LOW)
+	H.setStat("shotgun", STAT_NORMAL)
+	return TRUE
+
+/datum/job/soviet/messenger/get_keys()
+	return new/obj/item/weapon/key/soviet
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -287,7 +329,6 @@
 	H.equip_to_slot_or_del(new /obj/item/weapon/storage/firstaid/adv(H), slot_r_hand)
 	H.equip_to_slot_or_del(new /obj/item/weapon/doctor_handbook(H), slot_l_store)
 	H.add_note("Role", "You are a <b>[title]</b>, a medic. Your job is to keep the army healthy and in good condition.")
-	H.give_radio()
 	H.setStat("strength", STAT_MEDIUM_LOW)
 	H.setStat("engineering", STAT_LOW)
 	H.setStat("rifle", STAT_MEDIUM_LOW)
@@ -374,7 +415,6 @@
 	H.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/boltaction/mosin(H), slot_back)
 	H.equip_to_slot_or_del(new /obj/item/weapon/attachment/scope/adjustable/sniper_scope(H), slot_r_store)
 	H.add_note("Role", "You are a <b>[title]</b>, a sniper. Your job is to assist normal <b>Soldat</b> from behind defenses.")
-	H.give_radio()
 	H.setStat("strength", STAT_NORMAL)
 	H.setStat("engineering", STAT_NORMAL)
 	H.setStat("rifle", STAT_VERY_HIGH)
@@ -420,7 +460,6 @@
 	H.equip_to_slot_or_del(new /obj/item/weapon/shovel/spade/russia(H), slot_l_hand)
 	H.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/utility/full(H), slot_belt)
 	H.add_note("Role", "You are a <b>[title]</b>, an engineer. Your job is to build forward defenses.")
-	H.give_radio()
 	H.setStat("strength", STAT_MEDIUM_HIGH)
 	H.setStat("engineering", STAT_VERY_HIGH)
 	H.setStat("rifle", STAT_MEDIUM_LOW)
@@ -466,7 +505,6 @@
 	H.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/pistol/tokarev(H), slot_belt)
 
 	H.add_note("Role", "You are a <b>[title]</b>, a heavy weapons unit. Your job is to assist normal <b>Soldat</b>i in front line combat.")
-	H.give_radio()
 	H.setStat("strength", STAT_VERY_HIGH)
 	H.setStat("engineering", STAT_NORMAL)
 	H.setStat("rifle", STAT_MEDIUM_LOW)
@@ -509,7 +547,6 @@
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/sovuni(H), slot_w_uniform)
 	H.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/soviet_basic/soldier(H), slot_belt)
 	H.add_note("Role", "You are a <b>[title]</b>, a normal infantry unit. Your job is to participate in front line combat.")
-	H.give_radio()
 	H.setStat("strength", STAT_NORMAL)
 	H.setStat("engineering", STAT_NORMAL)
 	H.setStat("rifle", STAT_NORMAL)
@@ -660,7 +697,6 @@
 	H.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/soviet/anti_tank_crew(H), slot_belt)
 	H.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/pistol/tokarev(H), slot_r_store)
 	H.add_note("Role", "You are a <b>[title]</b>, an anti-tank infantry unit. Your job is to destroy enemy tanks.")
-	H.give_radio()
 	H.setStat("strength", STAT_NORMAL)
 	H.setStat("engineering", STAT_NORMAL)
 	H.setStat("rifle", STAT_NORMAL)
@@ -814,8 +850,8 @@ var/first_guard = FALSE
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/sovuni(H), slot_w_uniform)
 	H.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/submachinegun/ppsh(H), slot_back)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/cn42(H), slot_wear_suit)
+	H.equip_to_slot_or_del(new /obj/item/weapon/material/hatchet/tacknife(H), slot_belt)
 	H.add_note("Role", "You are a <b>[title]</b>, an elite infantry soldier. Your job is assist normal <b>Soldat</b>i in front line combat.")
-	H.give_radio()
 
 	// glorious sturmovik stats
 	H.setStat("strength", STAT_VERY_HIGH)
@@ -862,7 +898,6 @@ var/first_guard = FALSE
 	H.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/boltaction/mosin(H), slot_back)
 	H.equip_to_slot_or_del(new /obj/item/weapon/material/knife/butcher(H), slot_belt)
 	H.add_note("Role", "You are a <b>[title]</b>, a front chef. Your job is to keep the Red Army well fed.")
-	H.give_radio()
 	H.setStat("strength", STAT_MEDIUM_LOW)
 	H.setStat("engineering", STAT_MEDIUM_LOW)
 	H.setStat("rifle", STAT_MEDIUM_LOW)

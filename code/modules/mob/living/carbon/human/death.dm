@@ -57,6 +57,8 @@
 
 	//Handle species-specific deaths.
 	species.handle_death(src)
+	//world << lastattacker
+
 
 	animate_tail_stop()
 
@@ -64,10 +66,7 @@
 
 	if (l_hand) unEquip(l_hand)
 	if (r_hand) unEquip(r_hand)
-/*
-	if (ticker && ticker.mode)
-
-		ticker.mode.check_win()*/
+	//client.next_normal_respawn = world.realtime + (900000000)
 
 	if (client)
 		client.next_normal_respawn = world.realtime + (map ? map.respawn_delay : 3000)

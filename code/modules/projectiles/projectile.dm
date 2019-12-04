@@ -400,6 +400,8 @@
 			var/attacker_message = "shot with \a [type]"
 			var/victim_message = "shot with \a [type]"
 			var/admin_message = "shot (\a [type])"
+			//target_mob.lastattacker = firer (eh fuck it)
+			//prob a terrible lag causing addition but lmao -harcourt
 
 			admin_attack_log(firer, target_mob, attacker_message, victim_message, admin_message)
 		else
@@ -426,7 +428,7 @@
 	if(can_hit_in_trench == 1)
 		if(kill_count < (initial(kill_count) - 1))
 			if(!istype(T, /turf/floor/trench))
-				if(prob(90))
+				if(prob(75))
 					can_hit_in_trench = 0
 			else
 				can_hit_in_trench = -1

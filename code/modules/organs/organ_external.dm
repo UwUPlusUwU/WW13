@@ -242,8 +242,6 @@
 	if (status & ORGAN_BROKEN && prob(40) && brute)
 		if (!(owner.species && (owner.species.flags & NO_PAIN)))
 			owner.emote("scream")	//getting hit on broken hand hurts
-	if (used_weapon)
-		add_autopsy_data("[used_weapon]", brute + burn)
 
 	var/can_cut = (prob(brute*2) || sharp) && !(status & ORGAN_ROBOT)
 
@@ -1140,7 +1138,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	limb_name = "chest"
 	icon_name = "torso"
 	min_broken_damage = 72
-	max_damage = 104
+	max_damage = 125
 	w_class = 5
 	body_part = UPPER_TORSO
 	vital = TRUE
@@ -1157,7 +1155,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	limb_name = "groin"
 	icon_name = "groin"
 	min_broken_damage = 77
-	max_damage = 105
+	max_damage = 125
 	w_class = 5
 	body_part = LOWER_TORSO
 	vital = TRUE
@@ -1165,6 +1163,8 @@ Note that amputating the affected organ does in fact remove the infection from t
 	amputation_point = "lumbar"
 	joint = "hip"
 	dislocated = -1
+	cannot_amputate = TRUE
+	//fuck groin memes
 //	gendered_icon = TRUE
 
 /obj/item/organ/external/arm
